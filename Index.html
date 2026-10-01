@@ -13,9 +13,14 @@
       font-family: Arial, sans-serif;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background: #09090d;
       color: white;
+      overflow-x: hidden;
     }
 
     header {
@@ -41,11 +46,20 @@
       color: #784ba0;
     }
 
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
     nav a {
       color: #ddd;
       text-decoration: none;
-      margin-left: 18px;
       font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff3cac;
     }
 
     .hero {
@@ -63,6 +77,8 @@
     .gradient {
       background: linear-gradient(90deg,#ff3cac,#784ba0,#2b86c5);
       -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       color: transparent;
     }
 
@@ -71,10 +87,15 @@
       max-width: 650px;
       margin: auto;
       line-height: 1.6;
+      font-size: clamp(14px, 2vw, 16px);
     }
 
     .buttons {
       margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
     }
 
     button {
@@ -83,6 +104,12 @@
       padding: 13px 20px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    button:active {
+      transform: scale(0.98);
     }
 
     .primary {
@@ -90,10 +117,17 @@
       color: white;
     }
 
+    .primary:hover {
+      opacity: 0.9;
+    }
+
     .secondary {
       background: #191921;
       color: white;
-      margin-left: 8px;
+    }
+
+    .secondary:hover {
+      background: #242430;
     }
 
     .section {
@@ -102,6 +136,7 @@
 
     .section h2 {
       margin-bottom: 20px;
+      font-size: clamp(24px, 5vw, 32px);
     }
 
     .search {
@@ -113,6 +148,11 @@
       color: white;
       margin-bottom: 25px;
       outline: none;
+      font-size: 16px;
+    }
+
+    .search:focus {
+      border-color: #ff3cac;
     }
 
     .categories {
@@ -120,6 +160,21 @@
       gap: 10px;
       overflow-x: auto;
       margin-bottom: 25px;
+      padding-bottom: 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .categories::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .categories::-webkit-scrollbar-track {
+      background: #17171f;
+    }
+
+    .categories::-webkit-scrollbar-thumb {
+      background: #ff3cac;
+      border-radius: 2px;
     }
 
     .category {
@@ -130,6 +185,13 @@
       border-radius: 20px;
       cursor: pointer;
       color: #ccc;
+      transition: all 0.3s ease;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .category:active {
+      transform: scale(0.95);
     }
 
     .category.active {
@@ -140,7 +202,7 @@
 
     .creators {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
       gap: 18px;
     }
 
@@ -149,7 +211,8 @@
       border: 1px solid #292934;
       border-radius: 18px;
       overflow: hidden;
-      transition: .2s;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     .creator:hover {
@@ -157,45 +220,56 @@
       border-color: #ff3cac;
     }
 
+    .creator:active {
+      transform: translateY(-2px);
+    }
+
     .cover {
-      height: 150px;
+      height: 120px;
       background: linear-gradient(135deg,#ff3cac,#784ba0,#2b86c5);
       display: flex;
-      align-items: end;
+      align-items: flex-end;
       padding: 15px;
     }
 
     .avatar {
-      width: 62px;
-      height: 62px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: #09090d;
       border: 3px solid white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 25px;
+      font-size: 24px;
+      font-weight: bold;
     }
 
     .creator-body {
       padding: 15px;
     }
 
+    .creator-body h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
     .creator-body p {
       color: #999;
-      font-size: 14px;
-      margin: 8px 0 15px;
+      font-size: 13px;
+      margin: 8px 0 12px;
       line-height: 1.4;
     }
 
     .price {
       color: #ff72c5;
       font-weight: bold;
+      font-size: 14px;
     }
 
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
       gap: 15px;
     }
 
@@ -204,10 +278,17 @@
       border: 1px solid #292934;
       border-radius: 16px;
       padding: 22px;
+      transition: all 0.3s ease;
+    }
+
+    .feature:hover {
+      border-color: #ff3cac;
+      transform: translateY(-2px);
     }
 
     .feature h3 {
       margin-bottom: 8px;
+      font-size: 16px;
     }
 
     .feature p {
@@ -218,10 +299,11 @@
 
     footer {
       text-align: center;
-      padding: 40px;
+      padding: 40px 7%;
       color: #777;
       border-top: 1px solid #24242d;
       margin-top: 30px;
+      font-size: 14px;
     }
 
     .modal {
@@ -233,6 +315,16 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     .modal-box {
@@ -242,6 +334,18 @@
       max-width: 420px;
       width: 100%;
       padding: 25px;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .modal-box h2 {
@@ -257,8 +361,168 @@
     .close {
       float: right;
       background: transparent;
+      border: none;
       color: white;
-      font-size: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close:hover {
+      color: #ff3cac;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      header {
+        padding: 12px 5%;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      nav a {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: 50px 5% 40px;
+      }
+
+      .section {
+        padding: 30px 5%;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .secondary {
+        margin-left: 0;
+      }
+
+      .creators {
+        grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+        gap: 12px;
+      }
+
+      .cover {
+        height: 100px;
+      }
+
+      .avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+      }
+
+      .creator-body {
+        padding: 12px;
+      }
+
+      .creator-body h3 {
+        font-size: 14px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        padding: 30px 5%;
+      }
+
+      .modal-box {
+        max-width: 90vw;
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 10px 4%;
+      }
+
+      .logo {
+        font-size: 16px;
+      }
+
+      nav a {
+        font-size: 11px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero p {
+        font-size: 12px;
+      }
+
+      .section h2 {
+        font-size: 20px;
+      }
+
+      button {
+        padding: 11px 16px;
+        font-size: 13px;
+      }
+
+      .creators {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .search {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .category {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .creator-body h3 {
+        font-size: 13px;
+      }
+
+      .creator-body p {
+        font-size: 12px;
+      }
+
+      .price {
+        font-size: 12px;
+      }
+
+      .feature h3 {
+        font-size: 14px;
+      }
+
+      .feature p {
+        font-size: 12px;
+      }
+
+      .modal-box {
+        padding: 15px;
+      }
+
+      .modal-box h2 {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
