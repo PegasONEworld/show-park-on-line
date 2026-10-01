@@ -1,1 +1,508 @@
 
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show Room Online</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #09090d;
+      color: white;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(9,9,13,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #24242d;
+      padding: 15px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      color: #ff3cac;
+    }
+
+    .logo span {
+      color: #784ba0;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      margin-left: 18px;
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 70px 7% 50px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 20%, #35113d 0%, #09090d 55%);
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 8vw, 76px);
+      margin-bottom: 15px;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg,#ff3cac,#784ba0,#2b86c5);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: #aaa;
+      max-width: 650px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      margin-top: 28px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: linear-gradient(90deg,#ff3cac,#784ba0);
+      color: white;
+    }
+
+    .secondary {
+      background: #191921;
+      color: white;
+      margin-left: 8px;
+    }
+
+    .section {
+      padding: 35px 7%;
+    }
+
+    .section h2 {
+      margin-bottom: 20px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #292934;
+      background: #121219;
+      color: white;
+      margin-bottom: 25px;
+      outline: none;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+    }
+
+    .category {
+      white-space: nowrap;
+      background: #17171f;
+      border: 1px solid #292934;
+      padding: 9px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: #ccc;
+    }
+
+    .category.active {
+      background: #ff3cac;
+      color: white;
+      border-color: #ff3cac;
+    }
+
+    .creators {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 18px;
+    }
+
+    .creator {
+      background: #121219;
+      border: 1px solid #292934;
+      border-radius: 18px;
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .creator:hover {
+      transform: translateY(-4px);
+      border-color: #ff3cac;
+    }
+
+    .cover {
+      height: 150px;
+      background: linear-gradient(135deg,#ff3cac,#784ba0,#2b86c5);
+      display: flex;
+      align-items: end;
+      padding: 15px;
+    }
+
+    .avatar {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: #09090d;
+      border: 3px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+    }
+
+    .creator-body {
+      padding: 15px;
+    }
+
+    .creator-body p {
+      color: #999;
+      font-size: 14px;
+      margin: 8px 0 15px;
+      line-height: 1.4;
+    }
+
+    .price {
+      color: #ff72c5;
+      font-weight: bold;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+      gap: 15px;
+    }
+
+    .feature {
+      background: #121219;
+      border: 1px solid #292934;
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .feature h3 {
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      color: #999;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #777;
+      border-top: 1px solid #24242d;
+      margin-top: 30px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.75);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: #15151d;
+      border: 1px solid #333341;
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      padding: 25px;
+    }
+
+    .modal-box h2 {
+      margin-bottom: 12px;
+    }
+
+    .modal-box p {
+      color: #aaa;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .close {
+      float: right;
+      background: transparent;
+      color: white;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SHOW<span>ROOM</span></div>
+
+  <nav>
+    <a href="#discover">Objevovat</a>
+    <a href="#features">Proč my</a>
+    <a href="#" onclick="openCreator()">Pro tvůrce</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>
+    Tvoje tvorba.<br>
+    <span class="gradient">Tvoje Show Room.</span>
+  </h1>
+
+  <p>
+    Nová platforma pro tvůrce a jejich fanoušky.
+    Objevuj zajímavé profily, podporuj tvůrce a buduj vlastní komunitu
+    na jednom místě.
+  </p>
+
+  <div class="buttons">
+    <button class="primary" onclick="scrollToCreators()">
+      Objevovat tvůrce
+    </button>
+
+    <button class="secondary" onclick="openCreator()">
+      Staň se tvůrcem
+    </button>
+  </div>
+</section>
+
+<section class="section" id="discover">
+
+  <h2>Objevuj Show Room</h2>
+
+  <input
+    class="search"
+    id="search"
+    type="text"
+    placeholder="🔎 Hledat tvůrce..."
+    oninput="searchCreators()"
+  >
+
+  <div class="categories">
+    <div class="category active" onclick="filterCategory('Vše',this)">Vše</div>
+    <div class="category" onclick="filterCategory('Fitness',this)">Fitness</div>
+    <div class="category" onclick="filterCategory('Hudba',this)">Hudba</div>
+    <div class="category" onclick="filterCategory('Gaming',this)">Gaming</div>
+    <div class="category" onclick="filterCategory('Lifestyle',this)">Lifestyle</div>
+    <div class="category" onclick="filterCategory('Umění',this)">Umění</div>
+  </div>
+
+  <div class="creators" id="creatorGrid">
+
+    <div class="creator" data-category="Fitness" data-name="Alex">
+      <div class="cover">
+        <div class="avatar">A</div>
+      </div>
+      <div class="creator-body">
+        <h3>Alex Fitness ✓</h3>
+        <p>Trénink, motivace a zákulisí každodenního života.</p>
+        <span class="price">od 149 Kč / měsíc</span>
+      </div>
+    </div>
+
+    <div class="creator" data-category="Hudba" data-name="Mia">
+      <div class="cover">
+        <div class="avatar">M</div>
+      </div>
+      <div class="creator-body">
+        <h3>Mia Music ✓</h3>
+        <p>Nová hudba, backstage a kontakt s komunitou.</p>
+        <span class="price">od 99 Kč / měsíc</span>
+      </div>
+    </div>
+
+    <div class="creator" data-category="Gaming" data-name="David">
+      <div class="cover">
+        <div class="avatar">D</div>
+      </div>
+      <div class="creator-body">
+        <h3>David Gaming ✓</h3>
+        <p>Herní streamy, strategie a exkluzivní obsah.</p>
+        <span class="price">od 129 Kč / měsíc</span>
+      </div>
+    </div>
+
+    <div class="creator" data-category="Umění" data-name="Nina">
+      <div class="cover">
+        <div class="avatar">N</div>
+      </div>
+      <div class="creator-body">
+        <h3>Nina Art ✓</h3>
+        <p>Kresba, tvorba a pohled do zákulisí umělce.</p>
+        <span class="price">od 79 Kč / měsíc</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="features">
+
+  <h2>Co chceme dělat jinak</h2>
+
+  <div class="feature-grid">
+
+    <div class="feature">
+      <h3>🔎 Lepší objevování</h3>
+      <p>
+        Vyhledávání a kategorie mají pomoci menším tvůrcům dostat se
+        k novému publiku, místo aby platforma stála pouze na největších profilech.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>💎 Více možností monetizace</h3>
+      <p>
+        Předplatné může být pouze jedna část modelu. Platforma může později
+        podporovat jednorázový obsah, tipy, placené místnosti a speciální akce.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>🤝 Komunita</h3>
+      <p>
+        Cílem není pouze prodej obsahu. Tvůrce může kolem svého profilu
+        vytvořit skutečnou komunitu.
+      </p>
+    </div>
+
+    <div class="feature">
+      <h3>🔐 Kontrola</h3>
+      <p>
+        Tvůrci mají mít přehled o svém obsahu, cenách, publiku a příjmech
+        a jasná pravidla pro bezpečnost platformy.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  © 2026 Show Room Online · Tvoje tvorba, tvoje komunita.
+</footer>
+
+<div class="modal" id="creatorModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeCreator()">×</button>
+
+    <h2>Staň se tvůrcem</h2>
+
+    <p>
+      Tady později přidáme registraci tvůrce, ověření identity,
+      nastavení profilu, ceny a nahrávání obsahu.
+    </p>
+
+    <button class="primary" onclick="closeCreator()">
+      Rozumím
+    </button>
+  </div>
+</div>
+
+<script>
+
+let currentCategory = "Vše";
+
+function scrollToCreators() {
+  document.getElementById("discover")
+    .scrollIntoView({behavior:"smooth"});
+}
+
+function openCreator() {
+  document.getElementById("creatorModal").style.display = "flex";
+}
+
+function closeCreator() {
+  document.getElementById("creatorModal").style.display = "none";
+}
+
+function filterCategory(category, element) {
+
+  currentCategory = category;
+
+  document.querySelectorAll(".category")
+    .forEach(x => x.classList.remove("active"));
+
+  element.classList.add("active");
+
+  searchCreators();
+}
+
+function searchCreators() {
+
+  const query =
+    document.getElementById("search")
+      .value
+      .toLowerCase();
+
+  document.querySelectorAll(".creator")
+    .forEach(card => {
+
+      const name =
+        card.dataset.name.toLowerCase();
+
+      const category =
+        card.dataset.category;
+
+      const categoryMatch =
+        currentCategory === "Vše" ||
+        category === currentCategory;
+
+      const searchMatch =
+        name.includes(query);
+
+      card.style.display =
+        categoryMatch && searchMatch
+          ? "block"
+          : "none";
+    });
+}
+
+window.onclick = function(event) {
+
+  const modal =
+    document.getElementById("creatorModal");
+
+  if (event.target === modal) {
+    closeCreator();
+  }
+
+};
+
+</script>
+
+</body>
+</html>
