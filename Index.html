@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -272,7 +271,7 @@
   <nav>
     <a href="#discover">Objevovat</a>
     <a href="#features">Proč my</a>
-    <a href="#" onclick="openCreator()">Pro tvůrce</a>
+    <a href="#" onclick="event.preventDefault(); openCreator()">Pro tvůrce</a>
   </nav>
 </header>
 
@@ -463,26 +462,23 @@ function filterCategory(category, element) {
 
 function searchCreators() {
 
-  const query =
-    document.getElementById("search")
-      .value
-      .toLowerCase();
+  const query = document.getElementById("search")
+    .value
+    .trim()
+    .toLowerCase();
 
   document.querySelectorAll(".creator")
     .forEach(card => {
-
-      const name =
-        card.dataset.name.toLowerCase();
-
-      const category =
-        card.dataset.category;
+      const name = card.dataset.name.toLowerCase();
+      const category = card.dataset.category.toLowerCase();
+      const text = card.textContent.toLowerCase();
 
       const categoryMatch =
         currentCategory === "Vše" ||
-        category === currentCategory;
+        category === currentCategory.toLowerCase();
 
       const searchMatch =
-        name.includes(query);
+        !query || name.includes(query) || category.includes(query) || text.includes(query);
 
       card.style.display =
         categoryMatch && searchMatch
